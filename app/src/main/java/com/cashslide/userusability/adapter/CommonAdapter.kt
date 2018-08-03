@@ -29,10 +29,11 @@ class CommonAdapter(val context: Context):  RecyclerView.Adapter<RecyclerView.Vi
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(context)
         when(viewType){
-           /* HUMIDITY_IMAGE_VUEW -> {
-
+            HUMIDITY_IMAGE_VUEW -> {
+                val view = inflater.inflate(R.layout.vertical_item, parent, false)
+                return HumidityImageViewHolder(view)
             }
-            HUMIDITY_CONTENT_VIEw -> {
+            /*HUMIDITY_CONTENT_VIEw -> {
 
             }*/
             VERTICAL_VIEW -> {
@@ -54,7 +55,7 @@ class CommonAdapter(val context: Context):  RecyclerView.Adapter<RecyclerView.Vi
 
     override fun getItemViewType(position: Int): Int {
         return when (position){
-            0 -> VERTICAL_VIEW
+            0 -> HUMIDITY_IMAGE_VUEW
             1 -> VERTICAL_VIEW
             7 -> VERTICAL_VIEW
             14-> VERTICAL_VIEW
@@ -72,6 +73,10 @@ class CommonAdapter(val context: Context):  RecyclerView.Adapter<RecyclerView.Vi
                 }
 
             }
+
+            is HumidityImageViewHolder -> holder?.run {
+                bindView()
+            }
         }
     }
 
@@ -88,7 +93,13 @@ class CommonAdapter(val context: Context):  RecyclerView.Adapter<RecyclerView.Vi
     }
     inner class HumidityImageViewHolder(val view: View) : RecyclerView.ViewHolder(view){
         fun bindView(){
-
+            with(view){
+                Glide.with(context)
+                        .load(R.drawable.humidity_image)
+                        .asBitmap()
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .into(image_item)
+            }
         }
 
     }
