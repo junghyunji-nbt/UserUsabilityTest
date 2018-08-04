@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:largeHeap="true"
         android:hardwareAccelerated="false"
-        android:theme="@style/Theme.AppCompat.NoActionBar">
+        android:theme="@style/Theme.Design.NoActionBar">
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

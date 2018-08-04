@@ -16,7 +16,6 @@ class MainActivity : AppCompatActivity() {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = CommonAdapter(applicationContext)
-
         }
 
     }
