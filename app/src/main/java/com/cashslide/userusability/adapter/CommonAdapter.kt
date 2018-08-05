@@ -1,6 +1,7 @@
 package com.cashslide.userusability.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.os.CountDownTimer
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -14,8 +15,12 @@ import kotlinx.android.synthetic.main.horizontal_list.view.*
 import kotlinx.android.synthetic.main.humidity_content_item.view.*
 import kotlinx.android.synthetic.main.vertical_item.view.*
 import java.util.concurrent.TimeUnit
+import android.graphics.drawable.ColorDrawable
+import android.widget.ImageButton
+import com.cashslide.userusability.WebViewActivity
 
-class CommonAdapter(val context: Context):  RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+
+class CommonAdapter(val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val imageList = intArrayOf(R.drawable.dummy_1, R.drawable.dummy_2, R.drawable.dummy_3,
             R.drawable.dummy_4, R.drawable.dummy_5, R.drawable.dummy_6, R.drawable.dummy_7,
@@ -33,7 +38,7 @@ class CommonAdapter(val context: Context):  RecyclerView.Adapter<RecyclerView.Vi
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val inflater = LayoutInflater.from(context)
-        when(viewType){
+        when (viewType) {
             HUMIDITY_IMAGE_VUEW -> {
                 val view = inflater.inflate(R.layout.vertical_item, parent, false)
                 return HumidityImageViewHolder(view)
@@ -62,19 +67,19 @@ class CommonAdapter(val context: Context):  RecyclerView.Adapter<RecyclerView.Vi
     }
 
     override fun getItemViewType(position: Int): Int {
-        return when (position){
+        return when (position) {
             0 -> HUMIDITY_IMAGE_VUEW
             1 -> HUMIDITY_CONTENT_VIEw
             7 -> TIME_DEAL_VIEW
-            14-> HORIZONTAL_VIEW
+            14 -> HORIZONTAL_VIEW
             else -> VERTICAL_VIEW
         }
     }
 
-    override fun getItemCount(): Int  = 30
+    override fun getItemCount(): Int = 30
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when(holder){
+        when (holder) {
             is CommonViewHolder -> holder.run {
                 imageList[position % 13].let {
                     bindView(it)
@@ -92,9 +97,9 @@ class CommonAdapter(val context: Context):  RecyclerView.Adapter<RecyclerView.Vi
         }
     }
 
-    inner class CommonViewHolder(val view: View) : RecyclerView.ViewHolder(view){
+    inner class CommonViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         fun bindView(imageId: Int) {
-            with(view){
+            with(view) {
                 Glide.with(context)
                         .load(imageId)
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -102,34 +107,50 @@ class CommonAdapter(val context: Context):  RecyclerView.Adapter<RecyclerView.Vi
             }
         }
     }
-    inner class HumidityImageViewHolder(val view: View) : RecyclerView.ViewHolder(view){
-        fun bindView(){
-            with(view){
+
+    inner class HumidityImageViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+        fun bindView() {
+            with(view) {
                 Glide.with(context)
                         .load(R.drawable.humidity_image)
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .into(image_item)
+
+                image_item.setOnClickListener {
+                    val intent = Intent(context, WebViewActivity::class.java)
+                    intent.putExtra("url", "http://www.naver.com")
+                    context.startActivity(intent)
+                }
             }
         }
 
     }
-    inner class HumidityContentViewHolder(val view: View) : RecyclerView.ViewHolder(view){
-        fun bindView(){
-            with(view){
+
+    inner class HumidityContentViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+        fun bindView() {
+            with(view) {
                 Glide.with(context)
                         .load(R.drawable.humidity)
                         .asGif()
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                         .into(humidity_content_image)
+
+                humidity_layer.setOnClickListener {
+                    val intent = Intent(context, WebViewActivity::class.java)
+                    intent.putExtra("url", "http://www.naver.com")
+                    context.startActivity(intent)
+                }
             }
 
         }
 
     }
-    inner class TimeDealViewHolder(val view: View) : RecyclerView.ViewHolder(view){
+
+    inner class TimeDealViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         var minutes = 60
         var milliseconds = minutes * 60 * 1000
-        lateinit var countDownTimer:CountDownTimer
+        lateinit var countDownTimer: CountDownTimer
+
         init {
             view.time_deal_text.apply {
                 visibility = View.VISIBLE
@@ -141,6 +162,7 @@ class CommonAdapter(val context: Context):  RecyclerView.Adapter<RecyclerView.Vi
                                 TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished),
                                 TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)))
                     }
+
                     override fun onFinish() {
                     }
                 }
@@ -148,19 +170,27 @@ class CommonAdapter(val context: Context):  RecyclerView.Adapter<RecyclerView.Vi
             }
 
         }
-        fun bindView(){
-            with(view){
+
+        fun bindView() {
+            with(view) {
                 Glide.with(context)
                         .load(R.drawable.time_deal)
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .into(image_item)
+
+                image_item.setOnClickListener {
+                    val intent = Intent(context, WebViewActivity::class.java)
+                    intent.putExtra("url", "http://www.naver.com")
+                    context.startActivity(intent)
+                }
             }
             countDownTimer.start()
         }
 
     }
-    inner class HorizontalViewHolder(val view: View) : RecyclerView.ViewHolder(view){
-        fun bindView(){
+
+    inner class HorizontalViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+        fun bindView() {
             view.horizontal_recyclerview.apply {
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                 adapter = HorizontalAdapter(context)
@@ -169,6 +199,4 @@ class CommonAdapter(val context: Context):  RecyclerView.Adapter<RecyclerView.Vi
         }
 
     }
-
-
 }

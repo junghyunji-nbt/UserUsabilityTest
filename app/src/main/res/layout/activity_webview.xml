@@ -3,16 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/humidity_content_image"
+    <WebView
+        android:id="@+id/webview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <ImageView
-        android:id="@+id/humidity_layer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/humidity_layer"/>
-
+        android:layout_height="match_parent"/>
 
 </android.support.constraint.ConstraintLayout>
